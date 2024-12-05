@@ -10,10 +10,10 @@
               const latUsuario = position.coords.latitude;
               const lonUsuario = position.coords.longitude;
 
-              // Coordenadas del edificio actualizadas
+              // Coordenadas del edificio
               const latEdificio = -40.80252910829192;
               const lonEdificio = -62.98137171882734;
-              const radioPermitido = 0.015; // Radio en kilómetros (15 metros)
+              const radioPermitido = 0.005; // Radio en kilómetros (5 metros)
 
               // Función para calcular distancia entre dos coordenadas (Haversine Formula)
               function calcularDistancia(lat1, lon1, lat2, lon2) {
@@ -42,8 +42,8 @@
               } else {
                 alert(
                   "Acceso denegado: Estás fuera del área permitida. Distancia: " +
-                    distancia.toFixed(2) +
-                    " km"
+                    (distancia * 1000).toFixed(2) + // Mostrar distancia en metros
+                    " metros"
                 );
               }
             },
