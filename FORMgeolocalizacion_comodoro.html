@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Acceso Restringido</title>
+    <script>
+      function verificarUbicacion() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latUsuario = position.coords.latitude;
+              const lonUsuario = position.coords.longitude;
+
+              // Coordenadas del edificio
+              const latEdificio = -45.875246;
+              const lonEdificio = -67.535521;
+              const radioPermitido = 0.05; // Radio en kilómetros (50 metros)
+
+              // Función para calcular distancia entre dos coordenadas (Haversine Formula)
+              function calcularDistancia(lat1, lon1, lat2, lon2) {
+                const R = 6371; // Radio de la Tierra en km
+                const dLat = ((lat2 - lat1) * Math.PI) / 180;
+                const dLon = ((lon2 - lon1) * Math.PI) / 180;
+                const a =
+                  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos((lat1 * Math.PI) / 180) *
+                    Math.cos((lat2 * Math.PI) / 180) *
+                    Math.sin(dLon / 2) *
+                    Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c; // Distancia en km
+              }
+
+              const distancia = calcularDistancia(
+                latUsuario,
+                lonUsuario,
+                latEdificio,
+                lonEdificio
+              );
+
+              if (distancia <= radioPermitido) {
+                document.getElementById("formulario").style.display = "block";
+              } else {
+                alert(
+                  "Acceso denegado: Estás fuera del área permitida. Distancia: " +
+                    distancia.toFixed(2) +
+                    " km"
+                );
+              }
+            },
+            function (error) {
+              alert(
+                "Error al obtener la ubicación. Asegurate de habilitar los permisos de ubicación en tu dispositivo."
+              );
+            }
+          );
+        } else {
+          alert("Tu navegador no soporta geolocalización.");
+        }
+      }
+    </script>
+  </head>
+  <body onload="verificarUbicacion()">
+    <h1>Formulario de Acceso Restringido</h1>
+    <div id="formulario" style="display: none;">
+      <iframe
+        src="https://forms.gle/GHWoLjC8uWtfwuvCA"
+        width="100%"
+        height="600"
+        frameborder="0"
+      ></iframe>
+    </div>
+  </body>
+</html>
