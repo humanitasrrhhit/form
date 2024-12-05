@@ -38,7 +38,7 @@
               );
 
               if (distancia <= radioPermitido) {
-                document.getElementById("formulario").style.display = "block";
+                window.location.href = "https://forms.gle/GHWoLjC8uWtfwuvCA"; // Redirigir al formulario
               } else {
                 alert(
                   "Acceso denegado: Estás fuera del área permitida. Distancia: " +
@@ -60,14 +60,6 @@
     </script>
   </head>
   <body onload="verificarUbicacion()">
-    <h1>Formulario de Acceso Restringido</h1>
-    <div id="formulario" style="display: none;">
-      <iframe
-        src="https://forms.gle/GHWoLjC8uWtfwuvCA"
-        width="100%"
-        height="600"
-        frameborder="0"
-      ></iframe>
-    </div>
+    <h1>Verificando ubicación...</h1>
   </body>
 </html>
